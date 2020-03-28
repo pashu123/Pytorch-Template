@@ -133,7 +133,7 @@ class RunManager():
     
     def save_model(self,path):
         
-        torch.save(self.network(), path)
+        torch.save(self.network, path)
 
 
     
