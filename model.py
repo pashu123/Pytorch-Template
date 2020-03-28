@@ -51,9 +51,9 @@ model_conv.classifier = nn.Linear(in_features = 1280,out_features = 2,bias= True
 
 
 
-# if torch.cuda.is_available():
-#     print('Cuda is available')
-#     model_conv =  model_conv.cuda()
+if torch.cuda.is_available():
+    print('Cuda is available')
+    model_conv =  model_conv.cuda()
 
 
 ## Lets understand what's happening
@@ -92,6 +92,11 @@ for run in RunBuilder.get_runs(params):
         for images,labels in dataloaders['train']:
             images = Variable(images)
             labels = Variable(labels)
+
+            if torch.cuda.is_available():
+                images = images.cuda()
+                labels = labels.cuda()
+
             preds = network(images)
             loss = criterion(preds,labels)
             optimizer.zero_grad()
