@@ -1,6 +1,7 @@
 from collections import OrderedDict
 from collections import namedtuple
 from itertools import product
+from termcolor import colored
 
 
 class RunBuilder():
@@ -16,6 +17,8 @@ class RunBuilder():
         return runs
 
 
+
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -27,7 +30,6 @@ import os
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
 from IPython.display import display, clear_output
-import pandas as pd
 import time
 import json
 
@@ -86,13 +88,11 @@ class RunManager():
         loss = self.epoch_loss / len(self.loader.dataset)
         accuracy = self.epoch_num_correct / len(self.loader.dataset)
 
+        ## Add the various values to tensorboard
         self.tb.add_scalar('Loss', loss, self.epoch_count)
         self.tb.add_scalar('Accuracy', accuracy, self.epoch_count)
 
-        ## Add the network named parameters
-        # for name, param in self.network.named_parameters():
-        #     self.tb.add_histogram(name, param, self.epoch_count)
-        #     self.tb.add_histogram(f'{name}.grad', param.grad, self.epoch_count)
+       
 
         results = OrderedDict()
         results["run"] = self.run_count
@@ -105,13 +105,39 @@ class RunManager():
         for k,v in self.run_params._asdict().items(): 
             results[k] = v
         
-        self.run_data.append(results)
+        self.print_interactive(results)
 
-        df = pd.DataFrame.from_dict(self.run_data, orient='columns')
+    
+    def print_interactive(self,dictval):
         
-        os.system('clear')
+        if self.run_count == 1 and self.epoch_count == 1:
+            for k,_ in dictval.items():
+                    print(colored(k,'yellow', attrs=['bold'] ), end = '  ' )
+            print()
 
-        display(df)
+            for k,v in dictval.items():
+                color = 'green'
+
+                if k == 'accuracy':
+                    if float(v) <= 0.5:
+                        color = 'red'
+                    elif float(v) > 0.5 and float(v) <= 0.7:
+                        color = 'yellow'
+
+                
+                width = 2 * len(str(k))
+                # print(width)
+
+                if type(v) == float:
+                    v = round(v,2)
+
+                print('{}'.format(colored(v, color, attrs=['bold'] ),align='^',width = width), end = '  ' )
+            
+            print()
+                
+
+            
+
     
     def track_loss(self,loss):
         self.epoch_loss += loss.item() * self.loader.batch_size
