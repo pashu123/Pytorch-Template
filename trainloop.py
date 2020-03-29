@@ -125,7 +125,7 @@ class RunManager():
 
             value = colored( v, color, attrs=['bold'])
 
-            print('{} : {}'.format(key,value))
+            print('{} : {}'.format(key,value) , end = ' ')
 
         print()
 
