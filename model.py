@@ -43,7 +43,7 @@ model_conv = torchvision.models.mobilenet_v2(pretrained = True)
 
 # Freeze all layers in the network or non freeze and train from scratch
 for param in model_conv.parameters():
-    param.requires_grad = False
+    param.requires_grad = True
 
 model_conv.classifier = nn.Linear(in_features = 1280,out_features = 2,bias= True)
 
