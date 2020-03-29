@@ -114,26 +114,26 @@ class RunManager():
             for k,_ in dictval.items():
                     print(colored(k,'yellow', attrs=['bold'] ), end = '  ' )
             print()
-        else:
-            for k,v in dictval.items():
-                color = 'green'
+        
+        for k,v in dictval.items():
+            color = 'green'
 
-                if k == 'accuracy':
-                    if float(v) <= 0.5:
-                        color = 'red'
-                    elif float(v) > 0.5 and float(v) <= 0.7:
-                        color = 'yellow'
+            if k == 'accuracy':
+                if float(v) <= 0.5:
+                    color = 'red'
+                elif float(v) > 0.5 and float(v) <= 0.7:
+                    color = 'yellow'
 
-                
-                width = 2 * len(str(k))
-                # print(width)
-
-                if type(v) == float:
-                    v = round(v,2)
-
-                print('{}'.format(colored(v, color, attrs=['bold'] ),align='^',width = width), end = '  ' )
             
-            print()
+            width = 2 * len(str(k))
+            # print(width)
+
+            if type(v) == float:
+                v = round(v,2)
+
+            print('{}'.format(colored(v, color, attrs=['bold'] ),align='^',width = width), end = '  ' )
+        
+        print()
                 
 
             
