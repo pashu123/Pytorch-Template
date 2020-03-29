@@ -110,31 +110,25 @@ class RunManager():
     
     def print_interactive(self,dictval):
         
-        if self.run_count == 1 and self.epoch_count == 1:
-            for k,_ in dictval.items():
-                    print(colored(k,'yellow', attrs=['bold'] ), end = '  ' )
-            print()
-        
-        for k,v in dictval.items():
+        for k,v in  dictval.items():
+
+            key = colored(k,'blue', attrs=['bold'] )
+
+            if type(v) == float:
+                v = round(v,3)
+
             color = 'green'
 
             if k == 'accuracy':
-                if float(v) <= 0.5:
+                if v < 0.5:
                     color = 'red'
-                elif float(v) > 0.5 and float(v) <= 0.7:
-                    color = 'yellow'
 
-            
-            width = 2 * len(str(k))
-            # print(width)
+            value = colored( v, color, attrs=['bold'])
 
-            if type(v) == float:
-                v = round(v,2)
+            print('{} : {}'.format(key,value))
 
-            print('{}'.format(colored(v, color, attrs=['bold'] ),align='^',width = width), end = '  ' )
-        
         print()
-                
+
 
             
 
