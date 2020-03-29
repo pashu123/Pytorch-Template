@@ -114,7 +114,7 @@ class RunManager():
             for k,_ in dictval.items():
                     print(colored(k,'yellow', attrs=['bold'] ), end = '  ' )
             print()
-
+        else:
             for k,v in dictval.items():
                 color = 'green'
 
